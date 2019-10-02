@@ -36,7 +36,7 @@ var app = (function () {
         //subscribe to /topic/TOPICXX when connections succeed
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/newpoint', function (eventbody) {
+            stompClient.subscribe('/topic/newpoint.'+canvasId, function (eventbody) {
                 
                 var jsObject=JSON.parse(eventbody.body);
                 var pt=new Point(jsObject.x,jsObject.y);
@@ -54,6 +54,7 @@ var app = (function () {
 
         init: function () {
             var can = document.getElementById("canvas");
+            var canvasId=$("#canvasId").val();
             
             if(window.PointerEvent){
             	can.addEventListener("pointerdown",function(event){
@@ -70,7 +71,7 @@ var app = (function () {
             console.info("publishing point at "+JSON.stringify(pt));
             addPointToCanvas(pt);
             
-            stompClient.send("/topic/newpoint",{},JSON.stringify(pt));
+            stompClient.send("/topic/newpoint."+canvasId,{},JSON.stringify(pt));
 
             //publicar el evento
         },
