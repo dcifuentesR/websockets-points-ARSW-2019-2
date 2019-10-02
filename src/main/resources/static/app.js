@@ -39,7 +39,10 @@ var app = (function () {
             stompClient.subscribe('/topic/newpoint', function (eventbody) {
                 
                 var jsObject=JSON.parse(eventbody.body);
-                alert(JSON.stringify(jsObject));
+                var pt=new Point(jsObject.x,jsObject.y);
+                console.info("recieved point at "+JSON.stringify(pt));
+                addPointToCanvas(pt);
+                
             });
         });
 
@@ -52,13 +55,19 @@ var app = (function () {
         init: function () {
             var can = document.getElementById("canvas");
             
+            if(window.PointerEvent){
+            	can.addEventListener("pointerdown",function(event){
+            		app.publishPoint(event.pageX-can.getBoundingClientRect().left ,
+            					event.pageY-can.getBoundingClientRect().top)
+            	})
+            }
             //websocket connection
             connectAndSubscribe();
         },
 
         publishPoint: function(px,py){
             var pt=new Point(px,py);
-            console.info("publishing point at "+pt);
+            console.info("publishing point at "+JSON.stringify(pt));
             addPointToCanvas(pt);
             
             stompClient.send("/topic/newpoint",{},JSON.stringify(pt));
