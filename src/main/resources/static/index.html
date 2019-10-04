@@ -29,9 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
     
-    <body>
+    <body onLoad="app.init()">
     	Canvas # <input id="canvasId" type="number">
-    	<button onClick="app.init()">Connect</button>
+    	<button onClick="app.connectAndSubscribe($('#canvasId').val())">Connect</button>
         X:<input id="x" type="number"/>
         Y:<input id="y" type="number"/>        
         <button onclick="app.publishPoint($('#x').val(),$('#y').val())">Send point</button>
