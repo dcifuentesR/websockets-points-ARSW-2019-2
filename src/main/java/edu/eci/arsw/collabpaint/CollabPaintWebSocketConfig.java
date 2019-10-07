@@ -21,6 +21,7 @@ package edu.eci.arsw.collabpaint;
  * @author hcadavid
  */
 import java.util.logging.Logger;
+import edu.eci.arsw.collabpaint.handlers.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.util.AntPathMatcher;
@@ -34,6 +35,7 @@ public class CollabPaintWebSocketConfig extends AbstractWebSocketMessageBrokerCo
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
+    	config.setPathMatcher(new AntPathMatcher("."));
         config.enableSimpleBroker("/topic");
         config.setApplicationDestinationPrefixes("/app");        
     }

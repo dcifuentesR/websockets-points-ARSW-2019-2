@@ -68,9 +68,8 @@ var app = (function () {
         publishPoint: function(px,py,canvasId){
             var pt=new Point(px,py);
             console.info("publishing point at "+JSON.stringify(pt));
-            //addPointToCanvas(pt);
             
-            stompClient.send("/topic/newpoint."+canvasId,{},JSON.stringify(pt));
+            stompClient.send("/app/newpoint",{},JSON.stringify(pt));
 
             //publicar el evento
         },
