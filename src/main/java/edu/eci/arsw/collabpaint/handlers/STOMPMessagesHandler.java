@@ -15,9 +15,8 @@ public class STOMPMessagesHandler {
 	@Autowired
 	SimpMessagingTemplate msgTemplate;
 	
-	//--------change this for testing
-	@MessageMapping(value="/newpoint")
-	public void handlePointEvent(Point pt,@DestinationVariable String canvasId) {
+	@MessageMapping("newpoint.{canvasId}")
+	public void handlePointEvent(Point pt,@DestinationVariable String canvasId) throws Exception{
 		System.out.println("New point recieved at:"+pt);
 		msgTemplate.convertAndSend("/topic/newpoint."+canvasId,pt);
 	}
