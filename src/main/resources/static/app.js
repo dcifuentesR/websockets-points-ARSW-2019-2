@@ -17,6 +17,19 @@ var app = (function () {
         ctx.stroke();
     };
     
+    var addPolygonToCanvas = function(polygon){
+    	var canvas = document.getElementById("canvas");
+    	var ctx = canvas.getContext("2d");
+    	ctx.fillStyle = "#f00"
+    	ctx.beginPath();
+    	ctx.moveTo(polygon.points[0].x,polygon.points[0].y);
+    	polygon.points.forEach(function(currentPoint){
+    		ctx.lineTo(currentPoint.x,currentPoint.y);
+    	});
+    	ctx.closePath();
+    	ctx.fill();
+    	ctx.stroke();
+    };
     
     var getMousePosition = function (evt) {
         canvas = document.getElementById("canvas");
@@ -43,6 +56,12 @@ var app = (function () {
                 console.info("recieved point at "+JSON.stringify(pt));
                 addPointToCanvas(pt);
                 
+            });
+            
+            stompClient.subscribe('/topic/newpolygon.'+canvasId,function(eventbody){
+            	var jsObject = JSON.parse(eventbody.body);
+            	console.info("created new polygon!");
+            	addPolygonToCanvas(jsObject);
             });
         });
 

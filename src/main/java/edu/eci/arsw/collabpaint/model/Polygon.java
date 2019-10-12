@@ -27,7 +27,9 @@ public class Polygon {
 	 * @return true if the polygon has 4 points.
 	 */
 	public boolean isComplete() {
-		return points.size() == 4;
+		synchronized(points) {
+		return points.size() == 3;
+		}
 	}
 
 	/**
@@ -43,5 +45,7 @@ public class Polygon {
 	public void setPoints(List<Point> points) {
 		this.points = points;
 	}
+	
+	
 
 }
